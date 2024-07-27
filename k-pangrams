@@ -1,0 +1,63 @@
+//{ Driver Code Starts
+// Initial Template for Java
+import java.io.*;
+import java.util.*;
+
+class GFG {
+    public static void main(String args[]) throws IOException {
+        Scanner sc = new Scanner(System.in);
+        int t = Integer.parseInt(sc.nextLine().trim());
+        while (t-- > 0) {
+            String str = sc.nextLine();
+            int k = Integer.parseInt(sc.nextLine().trim());
+            Solution obj = new Solution();
+            if (obj.kPangram(str, k))
+                System.out.println("true");
+            else
+                System.out.println("false");
+        }
+    }
+}
+// } Driver Code Ends
+
+
+// User function Template for Java
+class Solution {
+    boolean kPangram(String str, int k) {
+        HashSet<Character> uniqueChars = new HashSet<>();
+        int alphabeticCount = 0;
+        
+        // Iterate through the string to count unique alphabetic characters
+        for (char c : str.toCharArray()) {
+            if (c >= 'a' && c <= 'z') {
+                uniqueChars.add(c);
+                alphabeticCount++;
+            }
+        }
+        
+        // Number of unique alphabetic characters in the string
+        int uniqueCount = uniqueChars.size();
+        
+        // Number of missing characters to complete the pangram
+        int missingCount = 26 - uniqueCount;
+        
+        // Check if there are enough alphabetic characters to perform the replacements
+        if (alphabeticCount < 26) {
+            // Not enough characters to make a pangram
+            return false;
+        }
+        
+        // Determine if the number of operations is sufficient
+        return missingCount <= k;
+    }
+
+    // Main method to test the kPangram function
+    public static void main(String[] args) {
+        Solution solution = new Solution();
+        
+        // Test cases
+        System.out.println(solution.kPangram("the quick brown fox jumps over the lazy dog", 0)); // true
+        System.out.println(solution.kPangram("aaaaaaaaaaaaaaaaaaaaaaaaaa", 25)); // true
+        System.out.println(solution.kPangram("a b c d e f g h i j k l m", 20)); // false
+    }
+}
