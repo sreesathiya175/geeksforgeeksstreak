@@ -1,0 +1,66 @@
+//{ Driver Code Starts
+import java.io.*;
+import java.lang.*;
+import java.util.*;
+
+class GFG {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int T = Integer.parseInt(br.readLine().trim());
+        while (T-- > 0) {
+            String s1 = br.readLine();
+            String[] S = s1.split(" ");
+            String s = S[0];
+            String t = S[1];
+            Solution ob = new Solution();
+            int ans = ob.editDistance(s, t);
+            System.out.println(ans);
+        }
+    }
+}
+
+// } Driver Code Ends
+
+
+class Solution {
+    public int editDistance(String str1, String str2) {
+        int m = str1.length();
+        int n = str2.length();
+
+        // Create a 2D DP array
+        int[][] dp = new int[m + 1][n + 1];
+
+        // Initialize the DP table
+        for (int i = 0; i <= m; i++) {
+            for (int j = 0; j <= n; j++) {
+                if (i == 0) {
+                    dp[i][j] = j; // If str1 is empty, insert all characters of str2
+                } else if (j == 0) {
+                    dp[i][j] = i; // If str2 is empty, remove all characters of str1
+                } else {
+                    // If characters are the same, no operation is needed for this character
+                    if (str1.charAt(i - 1) == str2.charAt(j - 1)) {
+                        dp[i][j] = dp[i - 1][j - 1];
+                    } else {
+                        // Consider all possibilities: insert, remove, replace
+                        dp[i][j] = 1 + Math.min(Math.min(dp[i - 1][j], dp[i][j - 1]), dp[i - 1][j - 1]);
+                    }
+                }
+            }
+        }
+
+        // Return the minimum number of operations required
+        return dp[m][n];
+    }
+
+    public static void main(String[] args) {
+        Solution solution = new Solution();
+        String str1 = "geek";
+        String str2 = "gesek";
+        System.out.println("Minimum operations: " + solution.editDistance(str1, str2)); // Output: 1
+
+        str1 = "gfg";
+        str2 = "gfg";
+        System.out.println("Minimum operations: " + solution.editDistance(str1, str2)); // Output: 0
+    }
+}
