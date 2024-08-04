@@ -1,0 +1,62 @@
+//{ Driver Code Starts
+import java.io.*;
+import java.lang.*;
+import java.util.*;
+
+class GFG {
+    public static void main(String args[]) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int t = Integer.parseInt(br.readLine().trim());
+
+        while (t-- > 0) {
+            String inputLine[] = br.readLine().trim().split(" ");
+            int n = Integer.parseInt(inputLine[0]);
+
+            int start[] = new int[n];
+            int end[] = new int[n];
+
+            inputLine = br.readLine().trim().split(" ");
+            for (int i = 0; i < n; i++) start[i] = Integer.parseInt(inputLine[i]);
+
+            inputLine = br.readLine().trim().split(" ");
+            for (int i = 0; i < n; i++) end[i] = Integer.parseInt(inputLine[i]);
+
+            int ans = new Solution().maxMeetings(n, start, end);
+            System.out.println(ans);
+        }
+    }
+}
+
+// } Driver Code Ends
+
+
+
+class Solution {
+    // Function to find the maximum number of meetings that can
+    // be performed in a meeting room.
+    public int maxMeetings(int n, int start[], int end[]) {
+        // Create an array of meetings where each meeting is represented as a pair of (end, start)
+        int[][] meetings = new int[n][2];
+        for (int i = 0; i < n; i++) {
+            meetings[i][0] = end[i];
+            meetings[i][1] = start[i];
+        }
+
+        // Sort meetings by end times (ascending order)
+        Arrays.sort(meetings, Comparator.comparingInt(a -> a[0]));
+
+        int count = 0;
+        int lastEndTime = -1;
+
+        // Iterate through sorted meetings and select non-overlapping meetings
+        for (int i = 0; i < n; i++) {
+            if (meetings[i][1] > lastEndTime) {
+                // Meeting can be accommodated
+                count++;
+                lastEndTime = meetings[i][0];
+            }
+        }
+
+        return count;
+    }
+}
