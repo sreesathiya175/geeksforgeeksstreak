@@ -1,0 +1,46 @@
+class Solution {
+    public Node addOne(Node head) {
+        // Reverse the linked list
+        head = reverse(head);
+        
+        // Add 1 to the reversed list
+        Node current = head;
+        int carry = 1;
+        
+        while (current != null && carry > 0) {
+            int sum = current.data + carry;
+            carry = sum / 10;
+            current.data = sum % 10;
+            current = current.next;
+        }
+        
+        // If there's still a carry left, add a new node at the end
+        if (carry > 0) {
+            Node newNode = new Node(carry);
+            Node temp = head;
+            while (temp.next != null) {
+                temp = temp.next;
+            }
+            temp.next = newNode;
+        }
+        
+        // Reverse the list again to restore original order
+        return reverse(head);
+    }
+
+    // Function to reverse a linked list
+    private Node reverse(Node head) {
+        Node prev = null;
+        Node current = head;
+        Node next = null;
+
+        while (current != null) {
+            next = current.next;
+            current.next = prev;
+            prev = current;
+            current = next;
+        }
+
+        return prev;
+    }
+}
