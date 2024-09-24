@@ -1,0 +1,47 @@
+//{ Driver Code Starts
+import java.io.*;
+import java.lang.*;
+import java.util.*;
+
+class GFG {
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+        int t = sc.nextInt();
+        while (t > 0) {
+            String s = sc.next();
+            Solution obj = new Solution();
+            System.out.println(obj.reverseWords(s));
+            t--;
+        }
+    }
+}
+
+// } Driver Code Ends
+
+
+
+
+class Solution {
+    // Function to reverse words in a given string.
+    String reverseWords(String str) {
+        // Step 1: Split the string by '.' to get individual words.
+        String[] words = str.split("\\.");
+        
+        // Step 2: Initialize a StringBuilder to store the result.
+        StringBuilder result = new StringBuilder();
+        
+        // Step 3: Reverse the order of words and append them to the result.
+        for (int i = words.length - 1; i >= 0; i--) {
+            result.append(words[i]);
+            
+            // Add a dot between words, but don't add a dot at the end.
+            if (i != 0) {
+                result.append(".");
+            }
+        }
+        
+        // Step 4: Convert StringBuilder to String and return.
+        return result.toString();
+    }
+}
